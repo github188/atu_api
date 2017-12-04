@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Item" >
+  <resultMap id="ItemResult" class="com.atu.api.domain.Item" >
+    <result column="ITEM_ID" property="itemId"  />
+    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+    <result column="ITEM_TYPE" property="itemType"  />
+    <result column="CATEGORY_ID1" property="categoryId1"  />
+    <result column="CATEGORY_ID2" property="categoryId2"  />
+    <result column="CATEGORY_ID3" property="categoryId3"  />
+    <result column="CATEGORY_ID4" property="categoryId4"  />
+    <result column="VENDER_USER_ID" property="venderUserId"  />
+    <result column="ITEM_STATUS" property="itemStatus"  />
+    <result column="ON_SHELF_TIME" property="onShelfTime" jdbcType="TIMESTAMP" />
+    <result column="OFF_SHELF_TIME" property="offShelfTime" jdbcType="TIMESTAMP" />
+    <result column="LEAST_BUY" property="leastBuy"  />
+    <result column="ITEM_IMAGE" property="itemImage" jdbcType="VARCHAR" />
+    <result column="IF_DEPOSIT" property="ifDeposit"  />
+    <result column="DEPOSIT_RATE" property="depositRate"  />
+    <result column="origin_province" property="originProvince"  />
+    <result column="origin_city" property="originCity"  />
+    <result column="origin_county" property="originCounty"  />
+    <result column="origin_address" property="originAddress" jdbcType="VARCHAR" />
+    <result column="supply_province" property="supplyProvince"  />
+    <result column="supply_city" property="supplyCity"  />
+    <result column="supply_county" property="supplyCounty"  />
+    <result column="Weight" property="weight" jdbcType="VARCHAR" />
+    <result column="differ_Weight" property="differWeight" jdbcType="VARCHAR" />
+    <result column="Packing_type" property="packingType" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="VARCHAR" />
+    <result column="Wide" property="wide" jdbcType="VARCHAR" />
+    <result column="High" property="high" jdbcType="VARCHAR" />
+    <result column="sales_property_set" property="salesPropertySet" jdbcType="VARCHAR" />
+    <result column="YN" property="yn"  />
+    <result column="CREATED" property="created" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED" property="modified" jdbcType="TIMESTAMP" />
+    
+    <result column="unit" property="unit"  />
+    <result column="if_have_zjbg" property="ifHaveZjbg"  />
+    <result column="if_have_cprz" property="ifHaveCprz"  />
+    <result column="market_start_time" property="marketStartTime" jdbcType="TIMESTAMP" />
+    <result column="market_end_time" property="marketEndTime" jdbcType="TIMESTAMP" />
+    
+    <result column="ITEM_TITLE" property="itemTitle" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="ItemVOResult" class="com.atu.api.domain.vo.ItemVO" >
+    <result column="item_id" property="itemId"  />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="item_image" property="itemImage" jdbcType="VARCHAR" />
+    <result column="tb_price" property="tbPrice"  />
+    <result column="origin_province" property="originProvince"  />
+    <result column="origin_city" property="originCity"  />
+    <result column="vender_user_id" property="venderUserId"  />
+    <result column="sku_id" property="skuId"  />
+    <result column="sales_property_name" property="salesPropertyName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="itemId" >
+        item.ITEM_ID = #itemId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="itemName" >
+        item.ITEM_NAME like concat('%', #itemName#, '%')
+      </isNotNull>
+      <isNotNull prepend="and" property="itemTitle" >
+        item.ITEM_TITLE like concat('%', #itemTitle#, '%')
+      </isNotNull>
+      <isNotNull prepend="and" property="itemType" >
+        item.ITEM_TYPE = #itemType:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="and" property="categoryId" >
+        item.CATEGORY_ID4 = #categoryId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="venderUserId" >
+        item.VENDER_USER_ID = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="itemStatus" >
+        item.ITEM_STATUS = #itemStatus:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        item.YN = #yn:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="and" property="brandId" >
+        item.brand_id = #brandId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="originProvince" >
+        item.origin_province = #originProvince:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="maxPrice" >
+      	<![CDATA[
+        sku.tb_price <= #maxPrice:INTEGER#
+        ]]>
+      </isNotNull>
+      <isNotNull prepend="and" property="minPrice" >
+        <![CDATA[
+        sku.tb_price >= #minPrice:INTEGER#
+        ]]>
+      </isNotNull>
+      <isNotNull prepend="and" property="packingType" >
+        item.packing_type = #packingType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="maxWeight" >
+        <![CDATA[
+        item.weight <= #maxWeight:INTEGER#
+        ]]>
+      </isNotNull>
+      <isNotNull prepend="and" property="minWeight" >
+        <![CDATA[
+        item.weight <= #minWeight:INTEGER#
+        ]]>
+      </isNotNull>
+    </dynamic>
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ItemResult" parameterClass="java.lang.Integer" >
+    select ITEM_ID, ITEM_NAME,ITEM_TITLE,ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
+      ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
+      origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+    from item
+    where ITEM_ID = #itemId:INTEGER#
+  </select>
+  
+
+  <insert id="insert" parameterClass="com.atu.api.domain.Item" >
+    insert into item (ITEM_NAME,ITEM_TITEL, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID,
+      ITEM_STATUS, ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,origin_province, origin_city, origin_county, supply_province, supply_city, supply_county,
+      Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address)
+    values (#itemName:VARCHAR#,#itemTitle:VARCHAR#, #itemType:INTEGER#, #categoryId1:INTEGER#,
+      #categoryId2:INTEGER#, #categoryId3:INTEGER#, #categoryId4:INTEGER#, #venderUserId:INTEGER#, #itemStatus:INTEGER#, #onShelfTime:TIMESTAMP#,
+      #offShelfTime:TIMESTAMP#, #leastBuy:INTEGER#, #itemImage:VARCHAR#, #ifDeposit:INTEGER#,
+      #depositRate:INTEGER#,#originProvince#, #originCity#, #originCounty#, #supplyProvince#, #supplyCity#, #supplyCounty#, #weight:VARCHAR#, #differWeight:VARCHAR#,
+      #packingType:VARCHAR#, #length:VARCHAR#, #wide:VARCHAR#, #high:VARCHAR#, #salesPropertySet#, 1,
+      now(),now(),#unit#,#ifHaveZjbg#,#ifHaveCprz#,#marketStartTime#,#marketEndTime#,#originAddress#)
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="itemId">
+			<![CDATA[SELECT @@IDENTITY AS ITEM_ID ]]>
+	  </selectKey>
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterClass="com.atu.api.domain.Item" >
+    update item set MODIFIED = now()
+    <dynamic >
+      <isNotNull prepend="," property="itemName" >
+        ITEM_NAME = #itemName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="itemTitle" >
+        ITEM_TITLE = #itemTitle:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="itemType" >
+        ITEM_TYPE = #itemType:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="categoryId1" >
+        CATEGORY_ID1 = #categoryId1:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="categoryId2" >
+        CATEGORY_ID2 = #categoryId2:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="categoryId2" >
+        CATEGORY_ID2 = #categoryId3:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="categoryId2" >
+        CATEGORY_ID2 = #categoryId4:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="venderUserId" >
+        VENDER_USER_ID = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemStatus" >
+        ITEM_STATUS = #itemStatus:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="onShelfTime" >
+        ON_SHELF_TIME = #onShelfTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="offShelfTime" >
+        OFF_SHELF_TIME = #offShelfTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="leastBuy" >
+        LEAST_BUY = #leastBuy:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemImage" >
+        ITEM_IMAGE = #itemImage:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="ifDeposit" >
+        IF_DEPOSIT = #ifDeposit:TINYINT#
+      </isNotNull>
+      <isNotNull prepend="," property="depositRate" >
+        DEPOSIT_RATE = #depositRate:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="weight" >
+        Weight = #weight:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="differWeight" >
+        differ_Weight = #differWeight:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="packingType" >
+        Packing_type = #packingType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="length" >
+        length = #length:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="wide" >
+        Wide = #wide:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="high" >
+        High = #high:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="yn" >
+        YN = #yn:TINYINT#
+      </isNotNull>
+    </dynamic>
+    where ITEM_ID = #itemId:INTEGER#
+  </update>
+  
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.ItemQuery" resultMap="ItemResult" >
+    select ITEM_ID, ITEM_NAME,ITEM_TITLE, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
+      ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
+      origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+    from item
+    <include refid="Item.condition" />
+    order by on_shelf_time desc
+  </select>
+  
+  <select id="selectOriginProvinceByCondition" parameterClass="com.atu.api.domain.query.ItemQuery" resultClass="java.lang.Integer" >
+    select distinct origin_province
+    from item
+    <include refid="Item.condition" />
+  </select>
+  
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.ItemQuery" resultClass="java.lang.Integer" >
+    select count(1) from item
+    <include refid="Item.condition" />
+  </select>
+  
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.ItemQuery" resultMap="ItemResult" >
+    select ITEM_ID, ITEM_NAME,ITEM_TITLE, ITEM_TYPE, CATEGORY_ID1, CATEGORY_ID2, CATEGORY_ID3, CATEGORY_ID4, VENDER_USER_ID, ITEM_STATUS,
+      ON_SHELF_TIME, OFF_SHELF_TIME, LEAST_BUY, ITEM_IMAGE, IF_DEPOSIT, DEPOSIT_RATE,
+      origin_province, origin_city, origin_county, supply_province, supply_city, supply_county, Weight, differ_Weight, Packing_type, length, Wide, High, sales_property_set, YN, CREATED,
+      MODIFIED,unit,if_have_zjbg,if_have_cprz,market_start_time,market_end_time,origin_address
+    from item
+    <include refid="Item.condition" />
+    order by on_shelf_time desc
+  	limit #start#,#pageSize#
+  </select>
+  
+  <select id="countVOByCondition" parameterClass="com.atu.api.domain.query.ItemQuery" resultClass="java.lang.Integer" >
+    select count(1) from
+	(select a.item_id, a.item_name, a.item_image, a.origin_province, a.origin_city, a.vender_user_id, b.sku_id, b.sales_property_name, b.tb_price  
+	 from item a LEFT JOIN sku b on a.item_id = b.item_id 
+	 where b.tb_price = (select MIN(tb_price) from sku c where c.item_id = a.item_id
+	 	<isNotNull prepend="and" property="maxPrice" >
+	      	<![CDATA[
+	        c.tb_price <= #maxPrice:INTEGER#
+	        ]]>
+	    </isNotNull>
+	    <isNotNull prepend="and" property="minPrice" >
+	        <![CDATA[
+	        c.tb_price >= #minPrice:INTEGER#
+	        ]]>
+	    </isNotNull>
+	 )
+	 <isNotNull prepend="and" property="itemName" >
+    	a.item_name like concat('%', #itemName#, '%')
+     </isNotNull>
+     <isNotNull prepend="and" property="itemStatus" >
+      	a.item_status = #itemStatus:INTEGER#
+     </isNotNull>
+     <isNotNull prepend="and" property="yn" >
+      	a.yn = #yn:INTEGER#
+     </isNotNull>
+     <isNotNull prepend="and" property="categoryId" >
+      	a.CATEGORY_ID4 = #categoryId:INTEGER#
+     </isNotNull>
+	) d
+  </select>
+  
+  <select id="selectVOByConditionForPage" parameterClass="com.atu.api.domain.query.ItemQuery" resultMap="ItemVOResult" >
+    select * from
+	(select a.item_id, a.item_name, a.item_image, a.origin_province, a.origin_city, a.vender_user_id, b.sku_id, b.sales_property_name, b.tb_price  
+	 from item a LEFT JOIN sku b on a.item_id = b.item_id 
+	 where b.tb_price = (select MIN(tb_price) from sku c where c.item_id = a.item_id
+	 	<isNotNull prepend="and" property="maxPrice" >
+	      	<![CDATA[
+	        c.tb_price <= #maxPrice:INTEGER#
+	        ]]>
+	    </isNotNull>
+	    <isNotNull prepend="and" property="minPrice" >
+	        <![CDATA[
+	        c.tb_price >= #minPrice:INTEGER#
+	        ]]>
+	    </isNotNull>
+	 )
+	 <isNotNull prepend="and" property="itemName" >
+    	a.item_name like concat('%', #itemName#, '%')
+     </isNotNull>
+     <isNotNull prepend="and" property="itemStatus" >
+      	a.item_status = #itemStatus:INTEGER#
+     </isNotNull>
+     <isNotNull prepend="and" property="yn" >
+      	a.yn = #yn:INTEGER#
+     </isNotNull>
+     <isNotNull prepend="and" property="categoryId" >
+      	a.CATEGORY_ID4 = #categoryId:INTEGER#
+     </isNotNull>
+	) d
+    <isNotNull property="priceDesc" >
+      order by d.tb_price $priceDesc$
+    </isNotNull>
+  	limit #start#,#pageSize#
+  </select>
+</sqlMap>

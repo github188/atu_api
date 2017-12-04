@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Comment" >
+  <!-- 返回数据 -->
+  <resultMap id="CommentResult" class="com.atu.api.domain.Comment" >
+    <result column="id" property="id"  />
+    <result column="sku_id" property="skuId"  />
+    <result column="item_id" property="itemId"  />
+    <result column="user_id" property="userId"  />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="score" property="score"  />
+    <result column="useless_count" property="uselessCount"  />
+    <result column="useful_count" property="usefulCount"  />
+    <result column="advantage" property="advantage" jdbcType="VARCHAR" />
+    <result column="disadvantage" property="disadvantage" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId"  />
+    <result column="topped" property="topped"  />
+    <result column="status" property="status"  />
+    <result column="deleted" property="deleted"  />
+    <result column="integral" property="integral"  />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="sort_number" property="sortNumber"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	id, sku_id, item_id, user_id, title, content, score, useless_count, useful_count, advantage, 
+  	disadvantage, order_id, topped, status, deleted, integral, ip, sort_number, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id#
+      </isNotNull>
+      <isNotNull prepend="and" property="skuId" >
+        sku_id = #skuId#
+      </isNotNull>
+      <isNotNull prepend="and" property="itemId" >
+        item_id = #itemId#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        user_id = #userId#
+      </isNotNull>
+      <isNotNull prepend="and" property="score" >
+        score = #score#
+      </isNotNull>
+      <isNotNull prepend="and" property="uselessCount" >
+        useless_count = #uselessCount#
+      </isNotNull>
+      <isNotNull prepend="and" property="usefulCount" >
+        useful_count = #usefulCount#
+      </isNotNull>
+      <isNotNull prepend="and" property="advantage" >
+        advantage = #advantage#
+      </isNotNull>
+      <isNotNull prepend="and" property="disadvantage" >
+        disadvantage = #disadvantage#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderId" >
+        order_id = #orderId#
+      </isNotNull>
+      <isNotNull prepend="and" property="status" >
+        status = #status#
+      </isNotNull>
+      <isNotNull prepend="and" property="ip" >
+        ip = #ip#
+      </isNotNull>
+      <isNotNull prepend="and" property="maxScore" >
+      	<![CDATA[
+        score <= #maxScore#
+        ]]>
+      </isNotNull>
+      <isNotNull prepend="and" property="minScore" >
+      	<![CDATA[
+        score >= #minScore#
+        ]]>
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.CommentQuery" resultMap="CommentResult" >
+    select 
+	<include refid="Comment.queryField" />
+    from comment
+    <include refid="Comment.condition" />
+    order by sort_number
+  </select>
+  
+  <!-- 根据条件查询信息(分页) --> 
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.CommentQuery" resultMap="CommentResult" >
+    select 
+	<include refid="Comment.queryField" />
+    from comment
+    <include refid="Comment.condition" />
+    order by sort_number
+  	limit #start#,#pageSize#
+  </select>
+  
+  <!-- 根据条件查询信息总数 -->  
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.CommentQuery" resultClass="java.lang.Integer" >
+    select count(1) from comment
+    <include refid="Comment.condition" />
+  </select>
+  
+  <!-- 根据主键查询信息 -->
+  <select id="selectById" parameterClass="java.lang.Integer" resultMap="CommentResult" >
+    select 
+	<include refid="Comment.queryField" />
+    from comment
+    where id = #commentId:INTEGER#
+  </select>
+  
+  <!-- 添加信息 --> 
+  <insert id="insert" parameterClass="com.atu.api.domain.Comment" >
+    
+  </insert>
+  
+  <!-- 更新信息 -->  
+  <update id="update" parameterClass="com.atu.api.domain.Comment" >
+    
+  </update>
+  
+  <!-- 删除信息 --> 
+  <delete id="delete" parameterClass="java.lang.Integer" >
+    
+  </delete>
+  
+  <!-- 修改评价的有用总数 -->
+  <update id="updateUsefulCountById" parameterClass="java.lang.Integer" >
+    update comment set MODIFIED = now() , useful_count = useful_count + 1
+    where id = #commentId:INTEGER#
+  </update>
+  
+</sqlMap>

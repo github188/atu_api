@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="FavoritesSeller" >
+  <!-- 返回数据 -->
+  <resultMap id="FavoritesSellerResult" class="com.atu.api.domain.FavoritesSeller" >
+    <result column="favorites_id" property="favoritesId"  />
+    <result column="user_id" property="userId"  />
+    <result column="vender_user_id" property="venderUserId"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 查询条件 -->  
+  <sql id="condition" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="and" property="favoritesId" >
+        favorites_id = #favoritesId:INTEGER#
+      </isNotNull>
+  	  <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询信息 -->   
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.FavoritesSellerQuery" resultMap="FavoritesSellerResult" >
+    select favorites_id, user_id, vender_user_id, created, modified
+    from favorites_seller
+    <include refid="FavoritesSeller.condition" />
+    order by favorites_id
+  </select>
+  
+  <!-- 根据条件查询信息(分页) -->  
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.FavoritesSellerQuery" resultMap="FavoritesSellerResult" >
+    select favorites_id, user_id, vender_user_id, created, modified
+    from favorites_seller
+    <include refid="FavoritesSeller.condition" />
+    order by favorites_id
+  	limit #start#,#pageSize#
+  </select>
+  
+  <!-- 根据条件查询信息总数 -->  
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.FavoritesSellerQuery" resultClass="java.lang.Integer" >
+    select count(1) from favorites_seller
+    <include refid="FavoritesSeller.condition" />
+  </select>
+  
+  <!-- 根据主键查询信息 -->  
+  <select id="selectById" parameterClass="java.lang.Integer" resultMap="FavoritesSellerResult" >
+    select favorites_id,user_id, vender_user_id, created, modified
+    from favorites_seller
+    where favorites_id = #favoritesId:INTEGER#
+  </select>
+  
+  <!-- 添加信息 -->  
+  <insert id="insert" parameterClass="com.atu.api.domain.FavoritesSeller" >
+    insert into favorites_seller (user_id, vender_user_id, created, modified)
+    values ( #userId:INTEGER#, #venderUserId:INTEGER#, now(),now())
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="favoritesId">
+			<![CDATA[SELECT @@IDENTITY AS favorites_id ]]>
+	  </selectKey>
+  </insert>
+  
+  <!-- 更新信息 -->  
+  <update id="update" parameterClass="com.atu.api.domain.FavoritesSeller" >
+    update favorites_seller set modified = now()
+    <dynamic>
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where favorites_id = #favoritesId:INTEGER#
+  </update>
+  
+  <!-- 删除信息 -->  
+  <delete id="delete" parameterClass="java.lang.Integer" >
+    delete from favorites_seller
+    where favorites_id = #favoritesId:INTEGER#
+  </delete>
+  
+  
+</sqlMap>

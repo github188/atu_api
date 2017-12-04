@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CommentReply" >
+  <resultMap id="CommentReplyResult" class="com.atu.api.domain.CommentReply" >
+    <result column="id" property="id"  />
+    <result column="comment_id" property="commentId"  />
+    <result column="user_id" property="userId"  />
+    <result column="parent_id" property="parentId"  />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted"  />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id#
+      </isNotNull>
+      <isNotNull prepend="and" property="commentId" >
+        comment_id = #commentId#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        user_id = #userId#
+      </isNotNull>
+      <isNotNull prepend="and" property="parentId" >
+        parent_id = #parentId#
+      </isNotNull>
+      <isNotNull prepend="and" property="deleted" >
+        deleted = #deleted#
+      </isNotNull>
+      <isNotNull prepend="and" property="ip" >
+        ip = #ip#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询信息 -->   
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.CommentReplyQuery" resultMap="CommentReplyResult" >
+    select id, comment_id, user_id, parent_id, content, deleted, ip, created, modified 
+    from comment_reply
+    <include refid="CommentReply.condition" />
+    order by id
+  </select>
+  
+  <!-- 根据条件查询信息(分页) -->  
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.CommentReplyQuery" resultMap="CommentReplyResult" >
+    select id, comment_id, user_id, parent_id, content, deleted, ip, created, modified
+    from comment_reply
+    <include refid="CommentReply.condition" />
+    order by id
+  	limit #start#,#pageSize#
+  </select>
+  
+  <!-- 根据条件查询信息总数 -->  
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.CommentReplyQuery" resultClass="java.lang.Integer" >
+    select count(1) from comment_reply
+    <include refid="CommentReply.condition" />
+  </select>
+  
+  <!-- 根据主键查询信息 -->  
+  <select id="selectById" parameterClass="java.lang.Integer" resultMap="CommentReplyResult" >
+    select id, comment_id, user_id, parent_id, content, deleted, ip, created, modified
+    from comment_reply
+    where ID = #id:INTEGER#
+  </select>
+  
+  <!-- 添加信息 -->  
+  <insert id="insert" parameterClass="com.atu.api.domain.CommentReply" >
+    insert into comment_reply ( comment_id, user_id, parent_id, content, deleted, ip, created, modified)
+    values (#commentId:INTEGER#, #userId:INTEGER#, #parentId:INTEGER#, #content:VARCHAR#, 1, #ip:VARCHAR#,
+      now(), now())
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS ID ]]>
+	  </selectKey>
+  </insert>
+  
+  <!-- 更新信息 -->  
+  <update id="update" parameterClass="com.atu.api.domain.FavoritesSeller" >
+    
+  </update>
+  
+  <!-- 删除信息 -->  
+  <delete id="delete" parameterClass="java.lang.Integer" >
+  
+  </delete>
+</sqlMap>

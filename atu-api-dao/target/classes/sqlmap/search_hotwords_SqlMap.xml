@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="SearchHotwords" >
+  <resultMap id="SearchHotwordsResult" class="com.atu.api.domain.SearchHotwords" >
+    <result column="id" property="id"  />
+    <result column="hotword_name" property="hotwordName" jdbcType="VARCHAR" />
+    <result column="sort_num" property="sortNum" />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	id, hotword_name, sort_num, yn, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.SearchHotwordsQuery" resultMap="SearchHotwordsResult" >
+    select
+	<include refid="SearchHotwords.queryField"/> 
+    from search_hotwords
+    <include refid="SearchHotwords.condition" />
+    order by sort_num 
+  </select>
+</sqlMap>

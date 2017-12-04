@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="OrderDetail" >
+  <resultMap id="OrderDetailResult" class="com.atu.api.domain.OrderDetail" >
+    <result column="id" property="id"  />
+    <result column="order_id" property="orderId"  />
+    <result column="vender_user_id" property="venderUserId"  />
+    <result column="sku_id" property="skuId"  />
+    <result column="item_id" property="itemId"  />
+    <result column="sub_order_id" property="subOrderId"  />
+    <result column="item_name" property="itemName" jdbcType="VARCHAR" />
+    <result column="sales_property" property="salesProperty" jdbcType="VARCHAR" />
+    <result column="sales_property_name" property="salesPropertyName" jdbcType="VARCHAR" />
+    <result column="original_price" property="originalPrice"  />
+    <result column="price" property="price"  />
+    <result column="num" property="num"  />
+    <result column="item_image" property="itemImage" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="item_title" property="itemTitle" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectByOrderId" resultMap="OrderDetailResult" parameterClass="java.lang.Integer" >
+    select id, order_id, vender_user_id, sku_id, item_id, sub_order_id, item_name, item_title, sales_property, sales_property_name, original_price, price, num, item_image, created, modified
+    from order_detail
+    where order_id = #orderId:INTEGER#
+  </select>
+  
+  <select id="selectBySubOrderId" resultMap="OrderDetailResult" parameterClass="java.lang.Integer" >
+    select id, order_id, vender_user_id, sku_id, item_id, sub_order_id, item_name, item_title, sales_property, sales_property_name, original_price, price, num, item_image, created, modified
+    from order_detail
+    where sub_order_id = #subOrderId:INTEGER#
+  </select>
+  
+  <insert id="insert" parameterClass="com.atu.api.domain.OrderDetail" >
+    insert into order_detail (order_id, vender_user_id, sku_id, item_id, sub_order_id, item_name, item_title, sales_property, sales_property_name, original_price, price, num, item_image,
+      created, modified)
+    values ( #orderId:INTEGER#, #venderUserId:INTEGER#, #skuId:INTEGER#, #itemId:INTEGER#, #subOrderId:INTEGER#, #itemName:VARCHAR#, #itemTitle:VARCHAR# ,#salesProperty:VARCHAR#, #salesPropertyName#,
+    	 #price:INTEGER#, #originalPrice:INTEGER#, #num:INTEGER#,
+      #itemImage:VARCHAR#, now(), now())
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS id ]]>
+	  </selectKey>
+  </insert>
+
+<!-- 修改订单详情订单号 -->
+  <update id="updateOderIdByOrderId" parameterClass="com.atu.api.domain.OrderDetail" >
+    update order_detail set order_id=#orderId:INTEGER#
+    where id = #id:INTEGER#
+  </update>
+
+</sqlMap>

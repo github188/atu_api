@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+	
+	<!-- dao层实体类配置 -->
+	
+	<bean id="promotionInfoDao" class="com.atu.api.dao.impl.PromotionInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="propertyDao" class="com.atu.api.dao.impl.PropertyDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="propertyValueDao" class="com.atu.api.dao.impl.PropertyValueDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="skuDao" class="com.atu.api.dao.impl.SkuDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="userInfoDao" class="com.atu.api.dao.impl.UserInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="userInfoIncrDao" class="com.atu.api.dao.impl.UserInfoIncrDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="paymentInfoDao" class="com.atu.api.dao.impl.PaymentInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="orderConsigneeDao" class="com.atu.api.dao.impl.OrderConsigneeDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="orderDetailDao" class="com.atu.api.dao.impl.OrderDetailDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="orderInfoDao" class="com.atu.api.dao.impl.OrderInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+     <bean id="paymentBindbankcardDao" class="com.atu.api.dao.impl.PaymentBindbankcardDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="itemPropertyDao" class="com.atu.api.dao.impl.ItemPropertyDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="itemImageDao" class="com.atu.api.dao.impl.ItemImageDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="itemDescriptionDao" class="com.atu.api.dao.impl.ItemDescriptionDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="itemDao" class="com.atu.api.dao.impl.ItemDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="consigneeInfoDao" class="com.atu.api.dao.impl.ConsigneeInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="categoryDao" class="com.atu.api.dao.impl.CategoryDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="businessUserExtDao" class="com.atu.api.dao.impl.BusinessUserExtDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="addressDao" class="com.atu.api.dao.impl.AddressDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="promotionSkuDao" class="com.atu.api.dao.impl.PromotionSkuDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="favoritesDao" class="com.atu.api.dao.impl.FavoritesDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="sellerBookkeepingDao" class="com.atu.api.dao.impl.SellerBookkeepingDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="smsDao" class="com.atu.api.dao.impl.SmsDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="sellerEntryDao" class="com.atu.api.dao.impl.SellerEntryDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="indexImageDao" class="com.atu.api.dao.impl.IndexImageDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <bean id="versionControlDao" class="com.atu.api.dao.impl.VersionControlDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="umpInfoDao" class="com.atu.api.dao.impl.UmpInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="indexPromItemDao" class="com.atu.api.dao.impl.IndexPromItemDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="indexSellItemDao" class="com.atu.api.dao.impl.IndexSellItemDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="indexRecommendItemDao" class="com.atu.api.dao.impl.IndexRecommendItemDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="searchHotwordsDao" class="com.atu.api.dao.impl.SearchHotwordsDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="cartInfoDao" class="com.atu.api.dao.impl.CartInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="serviceInfoDao" class="com.atu.api.dao.impl.ServiceInfoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="serviceCategoryDao" class="com.atu.api.dao.impl.ServiceCategoryDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="commentDao" class="com.atu.api.dao.impl.CommentDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="commentReplyDao" class="com.atu.api.dao.impl.CommentReplyDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="favoritesSellerDao" class="com.atu.api.dao.impl.FavoritesSellerDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="wxUserDao" class="com.atu.api.dao.impl.WxUserDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+     <bean id="tbCouponDao" class="com.atu.api.dao.impl.TbCouponDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <bean id="tbCouponPromoDao" class="com.atu.api.dao.impl.TbCouponPromoDaoImpl">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+</beans>
+

@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="OrderInfo" >
+  <resultMap id="OrderInfoResult" class="com.atu.api.domain.OrderInfo" >
+  	<result column="order_type" property="orderType"  />
+    <result column="order_id" property="orderId"  />
+    <result column="vender_user_id" property="venderUserId"  />
+    <result column="user_id" property="userId"  />
+    <result column="parent_order_id" property="parentOrderId"  />
+    <result column="Consignee_name" property="consigneeName" jdbcType="VARCHAR" />
+    <result column="Consignee_province" property="consigneeProvince"  />
+    <result column="Consignee_city" property="consigneeCity"  />
+    <result column="Consignee_county" property="consigneeCounty"  />
+    <result column="Consignee_address" property="consigneeAddress" jdbcType="VARCHAR" />
+    <result column="Consignee_mobile" property="consigneeMobile" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="order_money" property="orderMoney"  />
+    <result column="discount_money" property="discountMoney"  />
+    <result column="discount_info" property="discountInfo" jdbcType="VARCHAR" />
+    <result column="ought_pay_money" property="oughtPayMoney"  />
+    <result column="pay_money" property="payMoney"  />
+    <result column="ought_final_money" property="oughtFinalMoney"  />
+    <result column="final_money" property="finalMoney"  />
+    <result column="order_time" property="orderTime" jdbcType="TIMESTAMP" />
+    <result column="send_out_time" property="sendOutTime" jdbcType="TIMESTAMP" />
+    <result column="finish_time" property="finishTime" jdbcType="TIMESTAMP" />
+    <result column="order_status" property="orderStatus"  />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="lock_status" property="lockStatus"  />
+    <result column="lock_reason" property="lockReason" jdbcType="VARCHAR" />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="trade_no" property="tradeNo" />
+    <result column="wx_app_trade_no" property="wxAppTradeNo" jdbcType="VARCHAR"/>
+    <result column="from_where" property="fromWhere" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP"/>
+    
+  </resultMap>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="orderType" >
+        order_type = #orderType:INTEGER#
+      </isNotNull>
+  	  <isNotNull prepend="and" property="orderId" >
+    	order_id like concat('%', #orderId#, '%')
+     </isNotNull>
+  	  <isNotNull prepend="and" property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="parentOrder" >
+        vender_user_id != #parentOrder:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeName" >
+        Consignee_name = #consigneeName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeProvince" >
+        Consignee_province = #consigneeProvince:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeCity" >
+        Consignee_city = #consigneeCity:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeCounty" >
+        Consignee_county = #consigneeCounty:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeAddress" >
+        Consignee_address = #consigneeAddress:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="consigneeMobile" >
+        Consignee_mobile = #consigneeMobile:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderMoney" >
+        order_money = #orderMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="discountMoney" >
+        discount_money = #discountMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="discountInfo" >
+        discount_info = #discountInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="oughtPayMoney" >
+        ought_pay_money = #oughtPayMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="payMoney" >
+        pay_money = #payMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="oughtFinalMoney" >
+        ought_final_money = #oughtFinalMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="finalMoney" >
+        final_money = #finalMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderTime" >
+        order_time = #orderTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="and" property="sendOutTime" >
+        send_out_time = #sendOutTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="and" property="finishTime" >
+        finish_time = #finishTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderStatus" >
+        order_status = #orderStatus:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="ip" >
+        ip = #ip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="lockStatus" >
+        lock_status = #lockStatus:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="lockReason" >
+        lock_reason = #lockReason:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="tradeNo" >
+        trade_no = #tradeNo#
+      </isNotNull>
+      <isNotNull prepend="and" property="fromWhere" >
+        from_where = #fromWhere:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="payTime" >
+        pay_time = #payTime:TIMESTAMP#
+      </isNotNull>
+	  <isNotNull prepend="and" property="orderFlag" >
+	      <isEqual property="orderFlag" compareValue="1">
+	              order_status = 0
+	      </isEqual>
+	       <isEqual property="orderFlag" compareValue="2">
+	              (order_status = 1  or order_status = 2 or order_status = 3  or order_status = 4)
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="3">
+	              order_status = 5 
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="4">
+	              (order_status = 6  or order_status = 50)
+	      </isEqual> 
+       </isNotNull>
+    </dynamic>
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="OrderInfoResult" parameterClass="java.lang.Integer" >
+    select order_type, order_id, vender_user_id, user_id, parent_order_id, Consignee_name, Consignee_province, Consignee_city,
+      Consignee_county, Consignee_address, Consignee_mobile, remark, order_money, discount_money, pay_time,
+      discount_info, ought_pay_money, pay_money, ought_final_money, final_money, order_time,
+      send_out_time, finish_time, order_status, ip, lock_status, lock_reason, created, modified,trade_no,wx_app_trade_no, from_where
+    from order_info
+    where order_id = #orderId:INTEGER#
+  </select>
+
+  <insert id="insert" parameterClass="com.atu.api.domain.OrderInfo" >
+    insert into order_info ( order_type, vender_user_id, user_id, parent_order_id, Consignee_name, Consignee_province,
+      Consignee_city, Consignee_county, Consignee_address, Consignee_mobile, remark, order_money,
+      discount_money, discount_info, ought_pay_money, pay_money, ought_final_money, final_money,
+      order_time, send_out_time, finish_time, order_status, ip, lock_status, lock_reason, created,
+      modified,trade_no,wx_app_trade_no,from_where)
+    values (#orderType:INTEGER#, #venderUserId:INTEGER#, #userId:INTEGER#, #parentOrderId:INTEGER#,
+      #consigneeName:VARCHAR#,#consigneeProvince:INTEGER#, #consigneeCity:INTEGER#, #consigneeCounty:INTEGER#,
+      #consigneeAddress:VARCHAR#, #consigneeMobile:VARCHAR#, #remark:VARCHAR#, #orderMoney:INTEGER#,
+      #discountMoney:INTEGER#, #discountInfo:VARCHAR#, #oughtPayMoney:INTEGER#, 0,
+      #oughtFinalMoney:INTEGER#, #finalMoney:INTEGER#, #orderTime:TIMESTAMP#,
+      #sendOutTime:TIMESTAMP#, #finishTime:TIMESTAMP#, #orderStatus:INTEGER#, #ip:VARCHAR#,
+      0, #lockReason:VARCHAR#, now(), now(),#tradeNo#,#wxAppTradeNo#,#fromWhere:INTEGER#)
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="orderId">
+			<![CDATA[SELECT @@IDENTITY AS order_id ]]>
+	  </selectKey>
+  </insert>
+  
+
+  <update id="updateByPrimaryKey" parameterClass="com.atu.api.domain.OrderInfo" >
+    update order_info set modified = now()
+    <dynamic >
+      <isNotNull prepend="," property="orderType" >
+        order_type = #orderType:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="parentOrderId" >
+        parent_order_id = #parentOrderId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeName" >
+        Consignee_name = #consigneeName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeProvince" >
+        Consignee_province = #consigneeProvince:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeCity" >
+        Consignee_city = #consigneeCity:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeCounty" >
+        Consignee_county = #consigneeCounty:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeAddress" >
+        Consignee_address = #consigneeAddress:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="consigneeMobile" >
+        Consignee_mobile = #consigneeMobile:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="remark" >
+        remark = #remark:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="orderMoney" >
+        order_money = #orderMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="discountMoney" >
+        discount_money = #discountMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="discountInfo" >
+        discount_info = #discountInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="oughtPayMoney" >
+        ought_pay_money = #oughtPayMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="payMoney" >
+        pay_money = #payMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="oughtFinalMoney" >
+        ought_final_money = #oughtFinalMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="finalMoney" >
+        final_money = #finalMoney:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="orderTime" >
+        order_time = #orderTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="sendOutTime" >
+        send_out_time = #sendOutTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="finishTime" >
+        finish_time = #finishTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="orderStatus" >
+        order_status = #orderStatus:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="ip" >
+        ip = #ip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="lockStatus" >
+        lock_status = #lockStatus:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="lockReason" >
+        lock_reason = #lockReason:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tradeNo" >
+        trade_no = #tradeNo#
+      </isNotNull>
+      <isNotNull prepend="," property="wxAppTradeNo" >
+        wx_app_trade_no = #wxAppTradeNo#
+      </isNotNull>
+      <isNotNull prepend="," property="fromWhere" >
+        from_where = #fromWhere:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="payTime" >
+        pay_time = #payTime:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where order_id = #orderId:INTEGER#
+  </update>
+  
+  <update id="modifyPayMoney" parameterClass="com.atu.api.domain.OrderInfo" >
+    update order_info set modified = now(),pay_money=#payMoney#,order_status=#orderStatus#
+    where order_id = #orderId:INTEGER#
+    <dynamic>
+    	<isNotNull prepend="and" property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+    </dynamic>
+  </update>
+  
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.OrderInfoQuery" resultClass="java.lang.Integer" >
+    select count(1) from order_info
+    <include refid="OrderInfo.condition" />
+  </select>
+  
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
+    select order_type, order_id, vender_user_id, user_id, parent_order_id, Consignee_name, Consignee_province, Consignee_city,
+      Consignee_county, Consignee_address, Consignee_mobile, remark, order_money, discount_money,
+      discount_info, ought_pay_money, pay_money,pay_time, ought_final_money, final_money, order_time,
+      send_out_time, finish_time, order_status, ip, lock_status, lock_reason, created, modified,trade_no,wx_app_trade_no,from_where
+    from order_info
+    <include refid="OrderInfo.condition" />
+    order by order_time desc
+  </select>
+  
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
+    select order_type, order_id, vender_user_id, user_id, parent_order_id, Consignee_name, Consignee_province, Consignee_city,
+      Consignee_county, Consignee_address, Consignee_mobile, remark, order_money,pay_time, discount_money,
+      discount_info, ought_pay_money, pay_money, ought_final_money, final_money, order_time,
+      send_out_time, finish_time, order_status, ip, lock_status, lock_reason, created, modified,trade_no,wx_app_trade_no,from_where
+    from order_info
+    <include refid="OrderInfo.condition" />
+    order by order_time desc
+  	limit #start#,#pageSize#
+  </select>
+  
+  <select id="countByConditionForPage" parameterClass="com.atu.api.domain.query.OrderInfoQuery" resultClass="java.lang.Integer" >
+    select count(1) from order_info o,(select * from order_consignee GROUP BY order_id HAVING count(order_id) = 1) oc
+    where o.order_id = oc.order_id
+  	  <isNotNull prepend="and" property="orderId" >
+    	o.order_id like concat('%', #orderId#, '%')
+     </isNotNull>
+  	  <isNotNull prepend="and" property="venderUserId" >
+        o.vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        o.user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderFlag" >
+	      <isEqual property="orderFlag" compareValue="1">
+	              order_status = 0
+	      </isEqual>
+	       <isEqual property="orderFlag" compareValue="2">
+	              (order_status = 1  or order_status = 2 or order_status = 3  or order_status = 4)
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="3">
+	              order_status = 5 
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="4">
+	              (order_status = 6  or order_status = 50)
+	      </isEqual> 
+       </isNotNull>
+  </select>
+  
+  <!-- 链表查询 -->
+  <select id="selectByVenderUserIdForPage" parameterClass="com.atu.api.domain.query.OrderInfoQuery" resultMap="OrderInfoResult" >
+  	select order_type, o.order_id, o.vender_user_id, o.user_id, parent_order_id, oc.Consignee_name, oc.Consignee_province, oc.Consignee_city,
+      oc.Consignee_county, oc.Consignee_address, oc.Consignee_mobile, remark, order_money, discount_money,
+      discount_info, ought_pay_money, pay_money, o.from_where, o.pay_time, ought_final_money, final_money, order_time,
+      send_out_time, finish_time, order_status, ip, lock_status, lock_reason, o.created, o.modified,trade_no,wx_app_trade_no
+    from order_info o,(select * from order_consignee GROUP BY order_id HAVING count(order_id) = 1) oc
+    where o.order_id = oc.order_id
+      <isNotNull prepend="and" property="orderId" >
+    	o.order_id like concat('%', #orderId#, '%')
+     </isNotNull>
+  	  <isNotNull prepend="and" property="venderUserId" >
+        o.vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        o.user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="orderFlag" >
+	      <isEqual property="orderFlag" compareValue="1">
+	              order_status = 0
+	      </isEqual>
+	       <isEqual property="orderFlag" compareValue="2">
+	              (order_status = 1  or order_status = 2 or order_status = 3  or order_status = 4)
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="3">
+	              order_status = 5 
+	      </isEqual>
+	      <isEqual property="orderFlag" compareValue="4">
+	              (order_status = 6  or order_status = 50)
+	      </isEqual> 
+       </isNotNull>
+    order by order_time desc
+  	limit #start#,#pageSize#
+  </select>
+  
+    <!--根据订单号删除订单信息  -->
+  <delete id="delPriceByOrderId" parameterClass="java.lang.Integer">
+  	delete from order_info where order_id = #orderId#
+  </delete>
+  
+</sqlMap>

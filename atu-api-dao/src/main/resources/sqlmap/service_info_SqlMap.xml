@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ServiceInfo" >
+  <resultMap id="ServiceInfoResult" class="com.atu.api.domain.ServiceInfo" >
+    <result column="service_id" property="serviceId"  />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_tel" property="serviceTel" jdbcType="VARCHAR" />
+    <result column="service_image" property="serviceImage" jdbcType="VARCHAR" />
+    <result column="category_id" property="categoryId"  />
+    <result column="sort_number" property="sortNumber"  />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	  service_id, service_name, service_tel, service_image, category_id,
+      sort_number, yn, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="serviceId" >
+        service_id = #serviceId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="categoryId" >
+        category_id = #categoryId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn:INTEGER#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询所有信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.ServiceInfoQuery" resultMap="ServiceInfoResult"  >
+    select 
+	<include refid="ServiceInfo.queryField" />
+    from service_info
+    <include refid="ServiceInfo.condition" />
+    order by sort_number
+  </select>
+  
+  <!-- 根据条件查询所有信息数量 -->
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.ServiceInfoQuery" resultClass="java.lang.Integer" >
+    select count(1) from service_info
+    <include refid="ServiceInfo.condition" />
+  </select>
+  
+  <!-- 根据条件查询信息(分页) -->
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.ServiceInfoQuery" resultMap="ServiceInfoResult" >
+    select
+	<include refid="ServiceInfo.queryField"/> 
+    from service_info
+    <include refid="ServiceInfo.condition" />
+    order by sort_number 
+  	limit #start#,#pageSize#
+  </select>
+  
+</sqlMap>

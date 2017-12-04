@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="PaymentBindbankcard">
+	<resultMap id="PaymentBindbankcardResult" class="com.atu.api.domain.PaymentBindbankcard">
+		<result column="id" property="id" />
+		<result column="mer_cust_id" property="mer_cust_id" />
+		<result column="vender_user_id" property="vender_user_id" />
+		<result column="usr_busi_agreement_id" property="usr_busi_agreement_id" />
+		<result column="usr_pay_agreement_id" property="usr_pay_agreement_id" />
+		<result column="mobile" property="mobile" />
+		<result column="bank" property="bank" />
+		<result column="bank_ac" property="bank_ac" />
+		<result column="branch" property="branch" />
+		<result column="branch_ac" property="branch_ac" />
+		<result column="bank_ac_last4" property="bank_ac_last4" />
+		<result column="branch_ac_last4" property="branch_ac_last4" />
+		<result column="identityType" property="identityType" />
+		<result column="identityCode" property="identityCode" />
+		<result column="cardHolder" property="cardHolder" />
+		<result column="create_date" property="createdate" />
+		<result column="update_date" property="updatedate" />
+	</resultMap>
+
+	<sql id="selectAllColunms">
+		id,mer_cust_id,vender_user_id,usr_busi_agreement_id,usr_pay_agreement_id,mobile,bank,bank_ac,branch,branch_ac,bank_ac_last4,branch_ac_last4,identityType,identityCode,cardHolder,create_date,update_date
+	</sql>
+
+	<!-- 查询条件 -->
+	<sql id="condition">
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="id">
+				id = #id:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="and" property="mer_cust_id">
+				mer_cust_id = #mer_cust_id:INTEGER#
+			</isNotNull>
+			<isNotNull prepend="and" property="vender_user_id">
+				vender_user_id = #vender_user_id#
+			</isNotNull>
+			<isNotNull prepend="and" property="usr_busi_agreement_id">
+				usr_busi_agreement_id = #usr_busi_agreement_id#
+			</isNotNull>
+			<isNotNull prepend="and" property="usr_pay_agreement_id">
+				usr_pay_agreement_id = #usr_pay_agreement_id#
+			</isNotNull>
+			<isNotNull prepend="and" property="mobile">
+				mobile = #mobile#
+			</isNotNull>
+			<isNotNull prepend="and" property="bank">
+				bank = #bank#
+			</isNotNull>
+			<isNotNull prepend="and" property="bank_ac">
+				bank_ac = #bank_ac#
+			</isNotNull>
+			<isNotNull prepend="and" property="branch">
+				branch = #branch#
+			</isNotNull>
+			<isNotNull prepend="and" property="branch_ac">
+				branch_ac = #branch_ac#
+			</isNotNull>
+			<isNotNull prepend="and" property="bank_ac_last4">
+				bank_ac_last4 = #bank_ac_last4#
+			</isNotNull>
+			<isNotNull prepend="and" property="branch_ac_last4">
+				branch_ac_last4 = #branch_ac_last4#
+			</isNotNull>
+			<isNotNull prepend="and" property="identityType">
+				identityType = #identityType#
+			</isNotNull>
+			<isNotNull prepend="and" property="identityCode">
+				identityCode = #identityCode#
+			</isNotNull>
+			<isNotNull prepend="and" property="cardHolder">
+				cardHolder = #cardHolder#
+			</isNotNull>
+			<isNotNull prepend="and" property="createdate">
+				create_date = #createdate#
+			</isNotNull>
+			<isNotNull prepend="and" property="updatedate">
+				update_date = #updatedate#
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="PaymentBindbankcardResult"
+		parameterClass="java.lang.Integer">
+		select
+		<include refid="PaymentBindbankcard.selectAllColunms" />
+		from payment_bindbankcard
+		where id = #id#
+	</select>
+
+	<insert id="insert" parameterClass="com.atu.api.domain.PaymentBindbankcard">
+		insert into payment_bindbankcard
+		(mer_cust_id,vender_user_id,usr_busi_agreement_id,usr_pay_agreement_id,mobile,bank,bank_ac,branch,branch_ac,bank_ac_last4,branch_ac_last4,identityType,identityCode,cardHolder,create_date,update_date)
+		values
+		(#mer_cust_id:INTEGER#,#vender_user_id#,#usr_busi_agreement_id#,#usr_pay_agreement_id#,#mobile#,#bank#,#bank_ac#,#branch#,#branch_ac#,#bank_ac_last4#,branch_ac_last4,#identityType#,#identityCode#,#cardHolder#,now(),now())
+		<!-- 返回自增主键 -->
+		<selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS id ]]>
+		</selectKey>
+	</insert>
+
+
+	<update id="updateByPrimaryKey" parameterClass="com.atu.api.domain.PaymentBindbankcard">
+		update payment_bindbankcard set update_date = now()
+		<dynamic>
+			<isNotNull prepend="," property="id">
+				id = #id#
+			</isNotNull>
+			<isNotNull prepend="," property="mer_cust_id">
+				mer_cust_id = #mer_cust_id#
+			</isNotNull>
+			<isNotNull prepend="," property="vender_user_id">
+				vender_user_id = #vender_user_id#
+			</isNotNull>
+			<isNotNull prepend="," property="usr_busi_agreement_id">
+				usr_busi_agreement_id = #usr_busi_agreement_id#
+			</isNotNull>
+			<isNotNull prepend="," property="usr_pay_agreement_id">
+				usr_pay_agreement_id = #usr_pay_agreement_id#
+			</isNotNull>
+			<isNotNull prepend="," property="mobile">
+				mobile = #mobile#
+			</isNotNull>
+			<isNotNull prepend="," property="bank">
+				bank = #bank#
+			</isNotNull>
+			<isNotNull prepend="," property="bank_ac">
+				bank_ac = #bank_ac#
+			</isNotNull>
+			<isNotNull prepend="," property="branch">
+				branch = #branch#
+			</isNotNull>
+			<isNotNull prepend="," property="branch_ac">
+				branch_ac = #branch_ac#
+			</isNotNull>
+			<isNotNull prepend="," property="bank_ac_last4">
+				bank_ac_last4 = #bank_ac_last4#
+			</isNotNull>
+			<isNotNull prepend="," property="branch_ac_last4">
+				branch_ac_last4 = #branch_ac_last4#
+			</isNotNull>
+			<isNotNull prepend="," property="identityType">
+				identityType = #identityType#
+			</isNotNull>
+			<isNotNull prepend="," property="identityCode">
+				identityCode = #identityCode#
+			</isNotNull>
+			<isNotNull prepend="," property="cardHolder">
+				cardHolder = #cardHolder#
+			</isNotNull>
+			<isNotNull prepend="," property="cardHolder">
+				cardHolder = #cardHolder#
+			</isNotNull>
+		</dynamic>
+		where id = #id#
+	</update>
+
+	<select id="countByCondition" parameterClass="com.atu.api.domain.PaymentBindbankcard"
+		resultClass="java.lang.Integer">
+		select count(1) from payment_bindbankcard
+		<include refid="PaymentBindbankcard.condition" />
+	</select>
+
+	<select id="selectByCondition" parameterClass="com.atu.api.domain.PaymentBindbankcard"
+		resultMap="PaymentBindbankcardResult">
+		select
+		<include refid="PaymentBindbankcard.selectAllColunms" />
+		from payment_bindbankcard
+		<include refid="PaymentBindbankcard.condition" />
+		order by id desc
+	</select>
+
+	<!-- <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.UmpInfoQuery"
+		resultMap="UmpInfoResult">
+		select
+		<include refid="UmpInfo.selectAllColunms" />
+		from ump_info
+		<include refid="UmpInfo.condition" />
+		order by id desc
+		limit #start#,#pageSize#
+	</select> -->
+</sqlMap>

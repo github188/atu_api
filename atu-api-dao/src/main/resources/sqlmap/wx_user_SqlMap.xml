@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="WxUser" >
+  <resultMap id="WxUserResult" class="com.atu.api.domain.WxUser" >
+    <result column="id" property="id"  />
+    <result column="user_id" property="userId" />
+    <result column="subscribe" property="subscribe" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="subscribe_time" property="subscribe_time" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 依据主键进行查询 -->
+  <select id="selectByPrimaryKey" resultMap="WxUserResult" parameterClass="java.lang.Integer" >
+    select id, user_id, subscribe, openid, nickname, sex, language, city, province, country, headimgurl, subscribe_time
+    from wx_user
+    where id = #id:INTEGER#
+  </select>
+  
+  <!-- 添加信息 -->
+  <insert id="insert" parameterClass="com.atu.api.domain.WxUser" >
+    insert into wx_user (user_id, subscribe, openid, nickname, sex, language, city, province, country, headimgurl, subscribe_time)
+    values (#userId:INTEGER#,#subscribe:INTEGER#, #openid:VARCHAR#, #nickname:VARCHAR#,#sex:INTEGER#,#language:VARCHAR#,#city:VARCHAR#,
+    #province:VARCHAR#,#country:VARCHAR#,#headimgurl:VARCHAR#,#subscribe_time:VARCHAR#)
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS id ]]>
+	  </selectKey>
+  </insert>
+  
+</sqlMap>

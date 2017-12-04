@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="UserInfoIncr" >
+  <resultMap id="UserInfoIncrResult" class="com.atu.api.domain.UserInfoIncr" >
+  	<result column="id" property="id"  />
+    <result column="user_id" property="userId"  />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="head_imageUrl" property="headImageUrl" jdbcType="VARCHAR" />
+    <result column="sex" property="sex"  />
+    <result column="from_where" property="fromWhere"  />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+     <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id:INTEGER#
+      </isNotNull>
+  	  <isNotNull prepend="and" property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="userName" >
+        user_name = #userName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="headImageUrl" >
+        head_imageUrl = #headImageUrl:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="and" property="sex" >
+        sex = #sex:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="fromWhere" >
+        from_where = #fromWhere:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="created" >
+        created = #created:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="and" property="modified" >
+        modified = #modified:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <insert id="insert" parameterClass="com.atu.api.domain.UserInfoIncr" >
+    insert into user_info_incr (id, user_id, user_name, head_imageUrl, sex, from_where, yn, created, modified)
+    values (#id:INTEGER#, #userId:INTEGER#, #userName:VARCHAR#, #headImageUrl:VARCHAR#, #sex:INTEGER#, 
+    #fromWhere:INTEGER#, #yn:INTEGER#, now(), now())
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS id ]]>
+	  </selectKey>
+  </insert>
+  
+  <select id="selectByPrimaryKey" resultMap="UserInfoIncrResult" parameterClass="java.lang.Integer" >
+    select id, user_id, user_name, head_imageUrl, sex, from_where, yn, created,modified
+    from user_info_incr
+    where  user_id = #userId:INTEGER#
+  </select>
+  
+    <!-- 条件查询统计数量 -->
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.UserInfoIncrQuery" resultClass="java.lang.Integer" >
+    select count(1) from user_info_incr
+    <include refid="UserInfoIncr.condition" />
+  </select>
+ </sqlMap>

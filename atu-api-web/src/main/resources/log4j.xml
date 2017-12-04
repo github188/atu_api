@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<!-- 控制台日志配置-->
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d %p - %C[%L] - %m \n" />
+		</layout>
+	</appender>
+	<!-- 全局日志配置-->
+    <appender name="activexAppender" class="org.apache.log4j.DailyRollingFileAppender">       
+        <param name="File" value="/export/logs/www.tbny.net/activex.log" />       
+        <!-- <param name="File" value="/export/home/tomcat/domains/t.api.tbny.net/server1/logs/trade.log" /> -->  
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
+        <layout class="org.apache.log4j.PatternLayout">       
+         <param name="ConversionPattern"         
+            value="[%d{MMdd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />       
+        </layout>         
+    </appender>       
+          
+    <!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->  
+    <logger name="com.runway.bssp.activeXdemo" additivity="false">       
+        <priority value="DEBUG"/>         
+        <appender-ref ref="activexAppender" />         
+    </logger>     
+    
+    <!-- 微信回调接口日志配置--> 
+    <appender name="orderFileAll" class="org.apache.log4j.RollingFileAppender">       
+        <param name="File" value="/export/logs/www.tbny.net/payOrder/orderAll.log" />         
+        <layout class="org.apache.log4j.PatternLayout">       
+        	<param name="ConversionPattern"         
+            value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />       
+        </layout>         
+    </appender>
+    <appender name="orderFile" class="org.apache.log4j.DailyRollingFileAppender">       
+        <param name="File" value="/export/logs/www.tbny.net/payOrder/order.log" />         
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />         
+        <layout class="org.apache.log4j.PatternLayout">       
+         	<param name="ConversionPattern"         
+            value="[%d{yyyy-MM-dd HH:mm:ss SSS\} %-5p] [%t] %c{3\} - %m%n" />       
+        </layout>         
+    </appender>
+    <logger name="com.atu.api.web.controller.PayOrderController" additivity="false">       
+        <priority value="INFO"/>         
+        <appender-ref ref="orderFile" />
+        <appender-ref ref="orderFileAll" />         
+    </logger> 
+    
+    
+       
+    <!-- 根logger的设置-->       
+    <root>       
+        <priority value="DEBUG"/>       
+        <appender-ref ref="CONSOLE"/>       
+        <appender-ref ref="activexAppender"/>           
+    </root>
+    
+    <logger name="com.ibatis.common.logging" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="console" />
+        <appender-ref ref="rootLogger" />
+    </logger>
+ 
+    <logger name="com.ibatis" additivity="true">
+        <level value="DEBUG" />
+         <appender-ref ref="console" />
+        <appender-ref ref="rootLogger" />
+    </logger>
+ 
+    <logger name="java.sql.Connection" additivity="true">
+        <level value="DEBUG" />
+         <appender-ref ref="console" />
+        <appender-ref ref="rootLogger" />
+    </logger>
+ 
+    <logger name="java.sql.Statement" additivity="true">
+        <level value="DEBUG" />
+         <appender-ref ref="console" />
+        <appender-ref ref="rootLogger" />
+    </logger>       
+</log4j:configuration>

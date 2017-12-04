@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="CartInfo" >
+  <!-- 返回数据  -->
+  <resultMap id="CartInfoResult" class="com.atu.api.domain.CartInfo" >
+    <result column="cart_id" property="cartId"  />
+    <result column="user_id" property="userId" />
+    <result column="order_id" property="orderId" />
+    <result column="vender_user_id" property="venderUserId" />
+    <result column="item_id" property="itemId" />
+    <result column="sku_id" property="skuId" />
+    <result column="sku_num" property="skuNum" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	cart_id, user_id, order_id, vender_user_id, item_id, sku_id, sku_num, ip, yn, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="cartId" >
+        cart_info.cart_id = #cartId#
+      </isNotNull>
+      <isNotNull prepend="and" property="userId" >
+        cart_info.user_id = #userId#
+      </isNotNull>
+      <isNotNull prepend="and" property="venderUserId" >
+        cart_info.vender_user_id = #venderUserId#
+      </isNotNull>
+      <isNotNull prepend="and" property="itemId" >
+        cart_info.item_id = #itemId#
+      </isNotNull>
+      <isNotNull prepend="and" property="skuId" >
+        cart_info.sku_id = #skuId#
+      </isNotNull>
+      <isNotNull prepend="and" property="ip" >
+        cart_info.ip = #ip#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        cart_info.yn = #yn#
+      </isNotNull>
+      <isNotNull prepend="and" property="cartIdList" >
+        <iterate property="cartIdList" conjunction="OR" close=")" open="(">  
+            cart_info.cart_id=#cartIdList[]#  
+        </iterate> 
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!--查询购物车信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.CartInfoQuery" resultMap="CartInfoResult" >
+    select
+	<include refid="CartInfo.queryField"/> 
+    from cart_info
+    <include refid="CartInfo.condition" />
+  </select>
+  
+  <!--查询商铺信息  -->
+  <select id="selectBusinessIdByCondition" parameterClass="com.atu.api.domain.query.CartInfoQuery" resultClass="java.lang.Integer" >
+    select vender_user_id 
+    from cart_info 
+    <include refid="CartInfo.condition" />
+    group by vender_user_id
+  </select>
+  
+  <!--根据主键获取单个购物车信息  -->
+  <select id="selectById" parameterClass="java.lang.Integer" resultMap="CartInfoResult" >
+    select
+	<include refid="CartInfo.queryField"/> 
+    from cart_info
+    where cart_id = #cartId:INTEGER#
+  </select>
+  
+  <!--添加购物车信息  -->
+  <insert id="insert" parameterClass="com.atu.api.domain.CartInfo" >
+    insert into cart_info ( user_id, order_id, vender_user_id, item_id, sku_id, sku_num, ip, yn, created, modified)
+    values (#userId:INTEGER#, #orderId:INTEGER#, #venderUserId:INTEGER#, #itemId:INTEGER#, #skuId:INTEGER#, 
+    #skuNum:INTEGER#, #ip:VARCHAR#, 1, now(), now())
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="cartId">
+			<![CDATA[SELECT @@IDENTITY AS cart_id ]]>
+	  </selectKey>
+  </insert>
+  
+  <!--更新购物车信息  -->
+  <update id="update" parameterClass="com.atu.api.domain.CartInfo" >
+    update cart_info set modified = now()
+    <dynamic >
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="orderId" >
+        order_id = #orderId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="venderUserId" >
+        vender_user_id = #venderUserId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="itemId" >
+        item_id = #itemId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="skuId" >
+        sku_id = #skuId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="skuNum" >
+        sku_num = #skuNum:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="," property="ip" >
+        ip = #ip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="yn" >
+        yn = #yn:INTEGER#
+      </isNotNull>
+    </dynamic>
+    where cart_id = #cartId:INTEGER#
+  </update>
+  
+  <!--根据购物车编号删除购物车信息  -->
+  <delete id="delete" parameterClass="java.lang.Integer">
+  	delete from cart_info where cart_id = #cartId#
+  </delete>
+  
+  <!--更新购物车商品购买数量 -->
+  <update id="updateSkuNum" parameterClass="com.atu.api.domain.CartInfo" >
+    update cart_info set modified = now() , sku_num = #skuNum:INTEGER#
+    where cart_id = #cartId:INTEGER#
+  </update>
+  
+</sqlMap>

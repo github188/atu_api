@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="IndexRecommendItem" >
+  <resultMap id="IndexRecommendItemResult" class="com.atu.api.domain.IndexRecommendItem" >
+    <result column="id" property="id"  />
+    <result column="recommend_type" property="recommendType" />
+    <result column="recommend_name" property="recommendName" jdbcType="VARCHAR" />
+    <result column="recommend_intro" property="recommendIntro" jdbcType="VARCHAR" />
+    <result column="recommend_url" property="recommendUrl"  jdbcType="VARCHAR" />
+    <result column="sku_id" property="skuId"  />
+    <result column="recommend_img_url" property="recommendImgUrl"  jdbcType="VARCHAR" />
+    <result column="item_id" property="itemId"  />
+    <result column="sort_num" property="sortNum"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+    <result column="yn" property="yn"  />
+  </resultMap>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id#
+      </isNotNull>
+      <isNotNull prepend="and" property="recommendUrl" >
+        recommend_url = #recommendUrl#
+      </isNotNull>
+      <isNotNull prepend="and" property="recommendName" >
+        recommend_name = #recommendName#
+      </isNotNull>
+      <isNotNull prepend="and" property="recommendImgUrl" >
+        recommend_img_url = #recommendImgUrl#
+      </isNotNull>
+       <isNotNull prepend="and" property="sortNum" >
+        sort_num = #sortNum#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn#
+      </isNotNull>
+    </dynamic>
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="IndexRecommendItemResult" parameterClass="java.lang.Integer" >
+    select id,recommend_type,recommend_name,recommend_intro,recommend_url,sku_id,recommend_img_url,item_id,sort_num,created,modified,yn 
+    from index_recommend_item
+    where id = #id#
+  </select>
+  
+
+  <insert id="insert" parameterClass="com.atu.api.domain.IndexRecommendItem" >
+    insert into index_recommend_item (recommend_type,recommend_name,recommend_intro,recommend_url,sku_id,recommend_img_url,item_id,sort_num,created,modified,yn)
+    values (#recommendType#,#recommendName#,#recommendIntro#,#recommendUrl#,#skuId#,#recommendImgUrl#,#itemId#,#sortNum#,now(),now(),#yn#) 
+      <!-- 返回自增主键 -->
+      <selectKey resultClass="java.lang.Integer" keyProperty="id">
+			<![CDATA[SELECT @@IDENTITY AS id ]]>
+	  </selectKey>
+  </insert>
+
+	<update id="updateByPrimaryKey" parameterClass="com.atu.api.domain.IndexRecommendItem" >
+    update index_recommend_item set MODIFIED = now()
+    <dynamic >
+      <isNotNull prepend="," property="recommendType" >
+        recommend_type = #recommendType#
+      </isNotNull>
+      <isNotNull prepend="," property="recommendName" >
+        recommend_name = #recommendName#
+      </isNotNull>
+      <isNotNull prepend="," property="recommendIntro" >
+        recommend_intro = #recommendIntro#
+      </isNotNull>
+      <isNotNull prepend="," property="recommendUrl" >
+        recommend_url = #recommendUrl#
+      </isNotNull>
+      <isNotNull prepend="," property="sortNum" >
+        sort_num = #sortNum#
+      </isNotNull>
+      <isNotNull prepend="," property="skuId" >
+        sku_id = #skuId#
+      </isNotNull>
+      <isNotNull prepend="," property="recommendImgUrl" >
+        recommend_img_url = #recommendImgUrl#
+      </isNotNull>
+      <isNotNull prepend="," property="itemId" >
+        item_id = #itemId#
+      </isNotNull>
+      
+      <isNotNull prepend="," property="yn" >
+        yn = #yn#
+      </isNotNull>
+    </dynamic>
+    where id = #id#
+  </update>
+  
+  <!-- 根据条件查询所有信息数量 -->
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.IndexRecommendItemQuery" resultClass="java.lang.Integer" >
+    select count(1) from index_recommend_item a left join item b on a.item_id = b.item_id
+    where a.yn = 1 and b.yn = 1 and b.item_status = 1
+  </select>
+  
+  <!-- 根据条件查询所有信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.IndexRecommendItemQuery" resultMap="IndexRecommendItemResult" >
+    select id,recommend_type,recommend_name,recommend_intro,recommend_url,sku_id,recommend_img_url,item_id,sort_num,created,modified,yn
+    from index_recommend_item
+    <include refid="IndexRecommendItem.condition" />
+    order by sort_num
+  </select>
+  
+  <!-- 根据条件查询信息(分页) -->
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.IndexRecommendItemQuery" resultMap="IndexRecommendItemResult" >
+   select a.*
+    from index_recommend_item  a left join item b on a.item_id = b.item_id
+    where a.yn = 1 and b.yn = 1 and b.item_status = 1
+    order by a.sort_num
+  	limit #start#,#pageSize#
+  </select>
+  
+</sqlMap>

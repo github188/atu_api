@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="IndexPromItem" >
+  <resultMap id="IndexPromItemResult" class="com.atu.api.domain.IndexPromItem" >
+    <result column="id" property="id"  />
+    <result column="prom_name" property="promName" jdbcType="VARCHAR" />
+    <result column="prom_intro" property="promIntro" jdbcType="VARCHAR" />
+    <result column="prom_url" property="promUrl" jdbcType="VARCHAR" />
+    <result column="prom_img_url" property="promImgUrl" jdbcType="VARCHAR" />
+    <result column="prom_type" property="promType" />
+    <result column="sku_id" property="skuId" />
+    <result column="item_id" property="itemId" />
+    <result column="sort_num" property="sortNum" />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	id, prom_name, prom_intro, prom_url, prom_img_url, prom_type, sku_id, item_id, sort_num, yn, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="id" >
+        id = #id#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询所有信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.IndexPromItemQuery" resultMap="IndexPromItemResult" >
+    select 
+	<include refid="IndexPromItem.queryField"/> 
+    from index_prom_item
+    <include refid="IndexPromItem.condition" />
+    order by sort_num 
+  </select>
+  
+  <!-- 根据条件查询所有信息数量 -->
+  <select id="countByCondition" parameterClass="com.atu.api.domain.query.IndexPromItemQuery" resultClass="java.lang.Integer" >
+    select count(1) from index_prom_item a left join item b on a.item_id = b.item_id
+    where a.yn = 1 and b.yn = 1 and b.item_status = 1
+  </select>
+  
+  <!-- 根据条件查询信息(分页) -->
+  <select id="selectByConditionForPage" parameterClass="com.atu.api.domain.query.IndexPromItemQuery" resultMap="IndexPromItemResult" >
+    select a.*
+    from index_prom_item a left join item b on a.item_id = b.item_id
+    where a.yn = 1 and b.yn = 1 and b.item_status = 1
+    order by a.sort_num
+  	limit #start#,#pageSize#
+  </select>
+  
+</sqlMap>

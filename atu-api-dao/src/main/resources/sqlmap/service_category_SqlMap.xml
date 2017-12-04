@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ServiceCategory" >
+  <!-- 返回数据 -->
+  <resultMap id="ServiceCategoryResult" class="com.atu.api.domain.ServiceCategory" >
+    <result column="category_id" property="categoryId"  />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_level" property="categoryLevel"  />
+    <result column="parent_category_id" property="parentCategoryId"  />
+    <result column="sort_number" property="sortNumber"  />
+    <result column="yn" property="yn"  />
+    <result column="created" property="created" jdbcType="TIMESTAMP" />
+    <result column="modified" property="modified" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 查询字段 -->
+  <sql id="queryField">
+  	  category_id, category_name, category_level, parent_category_id, sort_number,
+      yn, created, modified
+  </sql>
+  
+  <!-- 查询条件 -->
+  <sql id="condition" >
+  	<dynamic prepend="where" >
+  	  <isNotNull prepend="and" property="categoryId" >
+        category_id = #categoryId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="parentCategoryId" >
+        parent_category_id = #parentCategoryId:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="categoryLevel" >
+        category_level = #categoryLevel:INTEGER#
+      </isNotNull>
+      <isNotNull prepend="and" property="yn" >
+        yn = #yn:INTEGER#
+      </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <!-- 根据条件查询服务分类信息 -->
+  <select id="selectByCondition" parameterClass="com.atu.api.domain.query.ServiceCategoryQuery" resultMap="ServiceCategoryResult"  >
+    select 
+	<include refid="ServiceCategory.queryField" />
+    from service_category
+    <include refid="ServiceCategory.condition" />
+    order by sort_number
+  </select>
+  
+</sqlMap>
